@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   <!-- bean 객체 등록 -->
+   <bean id="calculation" class="com.tech.ex.Calculation" /> <!-- calculation이라는 객체는 com.tech.ex.Calculation 이것을뜻함 -->
+   <bean id="myCalculation" class="com.tech.ex.MyCalculator"> <!-- 필드가 있어서 필드에 해당하는 값들을 넣어줘야함 -->
+      <property name="calculation">
+         <ref bean="calculation"/>
+      </property>
+      <property name="firstNum" value="10" />
+      <property name="secondNum" value="2" />
+   </bean>
+</beans>
