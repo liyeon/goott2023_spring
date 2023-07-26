@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-modelView
+<h1>modelView</h1>
+${data }
 </body>
 </html>
