@@ -15,7 +15,7 @@ public class RedirectController {
 		if(id.equals("abc")) {
 			return "redirect:studentOk";
 		}
-		return "redirect:studentNg?msg=다시입력";
+		return "redirect:studentNg?msg=try";
 	}
 	
 	@RequestMapping("/studentOk")
