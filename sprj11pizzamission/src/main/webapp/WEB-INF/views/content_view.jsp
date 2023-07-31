@@ -47,8 +47,9 @@
 		</tbody>
 	</table>
 	<div class="a_wrap">
-		<a href="">수정</a> <a
-			href="">삭제</a> <a
-			href="./list">목록</a>
+		<a href="content_update?pzid=${dto.pzid }">수정</a>
+		<a href="delete?pzid=${dto.pzid }">삭제</a>
+		<a href="./list">목록</a>
+		<a href="reply_view?pzid=${dto.pzid }">답변</a>
 	</div>
 </body>
