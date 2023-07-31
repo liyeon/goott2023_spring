@@ -186,7 +186,7 @@ public class BoardDao {
 		int flag = 0;
 		try {
 			conn = dataSource.getConnection();
-			String sql = "update replyboard" + "set bname=?, btitle=?, bcontent=? where bid=?";
+			String sql = "update replyboard set bname=?, btitle=?, bcontent=? where bid=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, bname);
 			pstmt.setString(2, btitle);

@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1>글을 수정해보자</h1>
-	<form action="write" method="POST">
+	<form action="modify" method="POST">
 		<input type="hidden" name="bid" value="${dto.bid }"/>
 		<label for="bname">이름</label>
 		<input type="text" name="bname" value="${dto.bname }"/>
