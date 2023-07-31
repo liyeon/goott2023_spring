@@ -215,7 +215,7 @@ public class BoardDao {
 				flag=true;
 			}
 		} catch (Exception e) {
-			System.out.println("글수정 오류 >> ");
+			System.out.println("글삭제 오류 >> ");
 			e.printStackTrace();
 		}finally {
 			try {
