@@ -35,7 +35,7 @@ public class BoardDao {
 		ArrayList<BoardDto> dtos = new ArrayList<BoardDto>();
 		try {
 			conn = dataSource.getConnection();
-			String sql = "select bid,bname,btitle,bcontent,bdate," + "bhit,bgroup,bstep,bindent from replyboard";
+			String sql = "select bid,bname,btitle,bcontent,bdate," + "bhit,bgroup,bstep,bindent from replyboard order by bid desc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			// dto에 글전체 담아주기
@@ -102,6 +102,8 @@ public class BoardDao {
 	}
 
 	public BoardDto contentView(String sbid) {
+		// 조회수 증가
+		upHit(sbid);
 		// bid를 조건으로 db에서 해당글 조회
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -141,5 +143,88 @@ public class BoardDao {
 			}
 		}//finally
 		return dto;
+	}
+	//조회수 증가
+	public void upHit(String sbid) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			String sql="update replyboard " + 
+					"set bhit=bhit+1 " + 
+					"where bid=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(sbid));
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("조회수 업데이트 오류>>");
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}//finally
+	}
+	public int modify(String sbid, String bname, String btitle, String bcontent) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int flag = 0;
+		try {
+			conn = dataSource.getConnection();
+			String sql = "update replyboard"
+					+ "set bname=?, btitle=?, bcontent=? where bid=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, bname);
+			pstmt.setString(2, btitle);
+			pstmt.setString(3, bcontent);
+			int bid = Integer.parseInt(sbid);
+			pstmt.setInt(4, bid);
+			flag = pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("글수정 오류 >> ");
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}//finally
+		return flag;
+	}
+
+	public boolean delete(int bid) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean flag = false;
+		try {
+			conn = dataSource.getConnection();
+			String sql = "delete from replyboard where bid=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, bid);
+			
+			int s = pstmt.executeUpdate();
+			if(s==0) {
+				flag=false;
+			}else {
+				flag=true;
+			}
+		} catch (Exception e) {
+			System.out.println("글수정 오류 >> ");
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)pstmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}//finally
+		return flag;
 	}
 }// class

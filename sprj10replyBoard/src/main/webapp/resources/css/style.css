@@ -5,6 +5,12 @@
    --color-gray:#f1f1f1;
 }
 @font-face {
+	    font-family: 'SEBANG_Gothic_Bold';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+@font-face {
 	font-family: 'SUITE-Regular';
 	src:
 		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
@@ -14,7 +20,7 @@
 }
 
 * {
-	font-family: 'SUITE-Regular';
+	font-family: 'SEBANG_Gothic_Bold';
 	margin:0;
 	padding:0;
 	box-sizing: border-box;

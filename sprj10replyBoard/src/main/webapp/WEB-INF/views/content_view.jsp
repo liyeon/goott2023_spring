@@ -33,22 +33,19 @@
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td colspan="3" class="left">
-					${dto.btitle }
-				</td>
+				<td colspan="3" class="left">${dto.btitle }</td>
 			</tr>
 
 			<tr id="content">
 				<th>내용</th>
-				<td colspan="3" class="left">
-					<pre>${dto.bcontent }</pre>
-				</td>
+				<td colspan="3" class="left"><pre>${dto.bcontent }</pre></td>
 			</tr>
 		</tbody>
 	</table>
 	<div class="a_wrap">
-		<a href="">수정</a> <a
-			href="">삭제</a> <a
-			href="./list">목록</a>
+		<a href="content_update?bid=${dto.bid }">수정</a>
+		<a href="delete?bid=${dto.bid }">삭제</a>
+		<a href="./list">목록</a>
+		<a href="">답변</a>
 	</div>
 </body>
