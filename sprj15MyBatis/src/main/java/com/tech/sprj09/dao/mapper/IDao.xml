@@ -1,0 +1,33 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tech.sprj09.dao.IDao">
+<!-- id=IDao 인터페이스에 생성한 메소드 -->
+    <select id="list" resultType="com.tech.sprj09.dto.BoardDto">
+    	SELECT BID,BNAME,BTITLE,BCONTENT,BDATE,
+    	BHIT,BGROUP,BSTEP,BINDENT FROM REPLYBOARD 
+    	ORDER BY BGROUP DESC,BSTEP ASC
+    </select>
+    
+    <select id="content_view" resultType="com.tech.sprj09.dto.BoardDto">
+    	SELECT BID,BNAME,BTITLE,BCONTENT,BDATE,BHIT,BGROUP,BSTEP,BINDENT FROM REPLYBOARD WHERE BID=#{param1}
+    </select>
+    
+    <insert id="write">
+    	INSERT INTO REPLYBOARD VALUES(REPLYBOARD_SEQ.NEXTVAL,
+    	#{param1},#{param2},#{param3},SYSDATE,0,REPLYBOARD_SEQ.CURRVAL,0,0)
+    </insert>
+    <!-- 수정하기 -->
+    <update id="modify">
+    	UPDATE REPLYBOARD SET BNAME=#{param1}, BTITLE=#{param2}, BCONTENT=#{param3} WHERE BID=#{param4}
+    </update>
+    <!-- 조회수 업데이트 -->
+    <update id="upHit">
+    	UPDATE REPLYBOARD SET BHIT=BHIT+1 WHERE BID=#{param1}
+    </update>
+    
+    <delete id="delete">
+    	DELETE FROM REPLYBOARD WHERE BID=#{param1}
+    </delete>
+</mapper>
