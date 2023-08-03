@@ -215,3 +215,11 @@ form.search{
 .login_txt{
 	text-align:right;
 }
+
+/* paging*/
+.paging{
+	width:var(--size);
+	display:flex;
+	justify-content : space-between;
+	list-style:none;
+}

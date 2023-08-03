@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
 import com.tech.sprj09.dao.BoardDao;
-import com.tech.sprj09.dto.BoardDto;
+import com.tech.sprj09.dao.IDao;
 
 public class BReplyService implements BServiceInterface {
 
 	@Override
-	public void execute(Model model) {
+	public void execute(Model model,IDao dao) {
 		System.out.println(">>BReplyService 신호를 받아보자");
 
 		// 맵 변환
@@ -28,7 +28,8 @@ public class BReplyService implements BServiceInterface {
 		String btitle = request.getParameter("btitle");
 		String bcontent = request.getParameter("bcontent");
 		// 디비에 접속해서 데이터 가져오기
-		BoardDao dao = new BoardDao();// 호출
+//		BoardDao dao = new BoardDao();// 호출
+		dao.replyShape(bgroup, bstep);
 		boolean flag = dao.reply(bid,bname,btitle,bcontent,bgroup,bstep,bindent);
 		System.out.println("답변 등록 성공여부 : " + flag);
 	}
