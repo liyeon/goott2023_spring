@@ -1,7 +1,9 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!-- 8 mapper하기  sql문이 select라 select를 쓰고
+ id는 list를 호출하기 때문에 그걸 쓰고 resultType은 정확한 경로를 설정한다.-->
+ <!-- 리턴 타입이 있을때 resultType 사용 -->
 <mapper namespace="com.tech.sprj09.dao.IDao">
 <!-- id=IDao 인터페이스에 생성한 메소드 -->
     <select id="list" resultType="com.tech.sprj09.dto.BoardDto">
@@ -30,4 +32,19 @@
     <delete id="delete">
     	DELETE FROM REPLYBOARD WHERE BID=#{param1}
     </delete>
+    
+    <!-- 답글달기 -->
+    <select id="replyView" resultType="com.tech.sprj09.dto.BoardDto" >
+            SELECT BID,BNAME,BTITLE,BCONTENT,BDATE,BHIT,BGROUP,BSTEP,BINDENT 
+            FROM REPLYBOARD WHERE BID=#{param1}    
+    </select>
+    
+    <insert id="reply">
+            INSERT INTO REPLYBOARD(BID,BNAME,BTITLE,BCONTENT,BGROUP,BSTEP,BINDENT)
+             VALUES(REPLYBOARD_SEQ.NEXTVAL,#{param2},#{param3},#{param4},#{param5},#{param6}+1,#{param7}+1)
+    </insert>
+    
+    <update id="replyShape">
+            UPDATE REPLYBOARD SET BSTEP=BSTEP+1 WHERE BGROUP=#{param1} AND BSTEP>#{param2}
+    </update>
 </mapper>

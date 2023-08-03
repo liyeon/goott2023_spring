@@ -22,7 +22,7 @@ public class BController {
 
 	BServiceInterface bServiceInterface;
 	
-//	servlet-context에 등록한 sqlsession을 가져온다.
+//	servlet-context에 등록한 sqlsession Bean을 가져온다.
 	@Autowired
 	private SqlSession sqlSession;
 	@RequestMapping("/list")
@@ -44,7 +44,7 @@ public class BController {
 		System.out.println("=====write_view====");
 		return "/write_view";
 	}
-
+	//글작성 작업
 	@RequestMapping("/write")
 	public String write(HttpServletRequest request, Model model) {
 		System.out.println("=====write====");
@@ -93,6 +93,7 @@ public class BController {
 	}
 
 	// 글 수정
+	// method가 post방식일때 처리
 	@RequestMapping(method = RequestMethod.POST, value = "/modify")
 	public String modify(HttpServletRequest request, Model model) {
 		System.out.println("=====modify====");
@@ -127,18 +128,38 @@ public class BController {
 	@RequestMapping("/reply_view")
 	public String reply_view(HttpServletRequest request, Model model) {
 		System.out.println("=====reply_view====");
-		model.addAttribute("request", request);
-		bServiceInterface = new BReplyViewService();
-		bServiceInterface.execute(model);
+//		model.addAttribute("request", request);
+//		bServiceInterface = new BReplyViewService();
+//		bServiceInterface.execute(model);
+//		230802 오후수업 추가
+		String sbid = request.getParameter("bid");
+		int bid = Integer.parseInt(sbid);
+		
+		IDao dao=sqlSession.getMapper(IDao.class);
+		BoardDto dto = dao.replyView(bid);
+		model.addAttribute("dto", dto);
 		return "reply_view";
 	}
 	//댓글달기?
 	@RequestMapping(method = RequestMethod.POST, value = "/reply")
 	public String reply(HttpServletRequest request, Model model) {
 		System.out.println("=====reply====");
-		model.addAttribute("request", request);
-		bServiceInterface = new BReplyService();
-		bServiceInterface.execute(model);
+//		model.addAttribute("request", request);
+//		bServiceInterface = new BReplyService();
+//		bServiceInterface.execute(model);
+//		230802 오후수업 추가
+		IDao dao = sqlSession.getMapper(IDao.class);
+		
+		String bid = request.getParameter("bid");
+		String bgroup = request.getParameter("bgroup");
+		String bstep = request.getParameter("bstep");
+		String bindent = request.getParameter("bindent");
+		String bname = request.getParameter("bname");
+		String btitle = request.getParameter("btitle");
+		String bcontent = request.getParameter("bcontent");
+		dao.replyShape(bgroup,bstep);
+		boolean flag = dao.reply(bid,bname,btitle,bcontent,bgroup,bstep,bindent);
+		System.out.println("답변 등록 성공여부 : " + flag);
 		return "redirect:list";
 	}
 }
