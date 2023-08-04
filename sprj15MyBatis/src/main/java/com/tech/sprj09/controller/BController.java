@@ -1,7 +1,5 @@
 package com.tech.sprj09.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,15 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tech.sprj09.dao.IDao;
-import com.tech.sprj09.dto.BoardDto;
 import com.tech.sprj09.service.BContentViewService;
 import com.tech.sprj09.service.BDeleteService;
+import com.tech.sprj09.service.BListService;
 import com.tech.sprj09.service.BModifyService;
 import com.tech.sprj09.service.BReplyService;
 import com.tech.sprj09.service.BReplyViewService;
 import com.tech.sprj09.service.BServiceInterface;
 import com.tech.sprj09.service.BWriteService;
-import com.tech.sprj09.vopage.SearchVo;
 
 @Controller
 public class BController {
@@ -32,51 +29,13 @@ public class BController {
 	private SqlSession sqlSession;
 	/* #2 페이징처리 request로 값 받기 #6 SearchVo 받기*/
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request,SearchVo searchVO,Model model) {
+	public String list(HttpServletRequest request,Model model) {
 		System.out.println("리스트");
 		// 데이터를 가져와보자
 		IDao dao = sqlSession.getMapper(IDao.class);
-//		model.addAttribute("request", request);
-//		bServiceInterface = new BListService();
-//		bServiceInterface.execute(model,dao);
-		
-//		dao = 인터페이스
-//		ArrayList<BoardDto> dtos = dao.list();
-//		model.addAttribute("list",dtos);
-		
-
-		/* #3 페이징 처리 */
-		String strPage = request.getParameter("page");
-		/* #4 처음 페이지 null 처리 */
-		if (strPage==null)
-			strPage="1";
-		System.out.println("page : "+strPage);
-		int page = Integer.parseInt(strPage);				
-		
-		/* #7 현재 페이지를 받아온다. */
-		searchVO.setPage(page);
-		/* #8 글의 총 갯수 구하기 */
-		int total = dao.selectBoardTotCount();
-		System.out.println("total cnt: "+total);
-		searchVO.pageCalculate(total);
-		/* 계산 결과 출력하기 */
-		System.out.println("total row: "+total);
-		System.out.println("clickpage: "+searchVO.getPage());
-		System.out.println("pageStart: "+searchVO.getPageStart());
-		System.out.println("pageEnd: "+searchVO.getPageEnd());
-		System.out.println("pageTot: "+searchVO.getTotPage());
-		System.out.println("rowStart: "+searchVO.getRowStart());
-		System.out.println("rowEnd: "+searchVO.getRowEnd());
-		
-		/* #9 페이징 글 번호 전달 */
-		int rowStart = searchVO.getRowStart();
-		int rowEnd = searchVO.getRowEnd();
-
-		ArrayList<BoardDto> dtos = dao.list(rowStart, rowEnd);
-		model.addAttribute("list",dtos);
-		/* #12 페이지 계산을 위해 list.jsp에 값 전달 */
-		model.addAttribute("totRowcnt",total);
-		model.addAttribute("searchVO",searchVO);
+		model.addAttribute("request", request);
+		bServiceInterface = new BListService();
+		bServiceInterface.execute(model,dao);
 		return "/list";
 	}
 
@@ -95,8 +54,8 @@ public class BController {
 //		String bname = request.getParameter("bname");
 //		String btitle = request.getParameter("btitle");
 //		String bcontent = request.getParameter("bcontent");
-		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
+		IDao dao = sqlSession.getMapper(IDao.class);
 		bServiceInterface = new BWriteService();
 		bServiceInterface.execute(model,dao);
 //		dao.write(bname,btitle,bcontent);
@@ -110,9 +69,9 @@ public class BController {
 //		글조회
 		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface=new BWriteService();
+		bServiceInterface=new BContentViewService();
 		bServiceInterface.execute(model,dao);
-		
+		System.out.println("contentview 리퀘스트 값 "+request);
 //		int bid = Integer.parseInt(request.getParameter("bid"));
 //		dao.upHit(bid);
 //		BoardDto dto = dao.content_view(bid);

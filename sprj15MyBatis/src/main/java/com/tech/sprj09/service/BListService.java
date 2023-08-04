@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import com.tech.sprj09.dao.IDao;
 import com.tech.sprj09.dto.BoardDto;
 import com.tech.sprj09.vopage.SearchVo;
-
 @Service
 public class BListService implements BServiceInterface {
 
@@ -34,9 +33,10 @@ public class BListService implements BServiceInterface {
 		// 검색 vo에 페이지값 담아주기
 		SearchVo searchVO = new SearchVo();
 		searchVO.setPage(page);
-		
+		//글의 총 갯수 구하기
 		int total = dao.selectBoardTotCount();
 		System.out.println("total cnt: "+total);
+		searchVO.pageCalculate(total);
 		/* 계산 결과 출력하기 */
 		System.out.println("total row: "+total);
 		System.out.println("clickpage: "+searchVO.getPage());

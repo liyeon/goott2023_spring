@@ -17,11 +17,10 @@
 		#{param2}
 	</select>
 
-	<select id="content_view"
-		resultType="com.tech.sprj09.dto.BoardDto">
-		SELECT
-		BID,BNAME,BTITLE,BCONTENT,BDATE,BHIT,BGROUP,BSTEP,BINDENT FROM
-		REPLYBOARD WHERE BID=#{param1}
+	<select id="contentView" resultType="com.tech.sprj09.dto.BoardDto">
+		SELECT BID,BNAME,BTITLE,BCONTENT,BDATE,
+		BHIT,BGROUP,BSTEP,BINDENT  
+		FROM REPLYBOARD WHERE BID=#{param1}
 	</select>
 
 	<insert id="write">
