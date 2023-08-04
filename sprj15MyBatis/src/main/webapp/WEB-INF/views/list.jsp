@@ -48,36 +48,86 @@
 			</tr>
 		</tbody>
 	</table>
-	<div>
-		전체글 : ${totRowcnt }<br />
-		현재페이지/토탈페이지 : ${searchVO.page } / ${searchVO.totPage }
-	</div>
-	<ul class="paging">
-		<!-- 13 현재페이지/토탈페이지:1/10 나타내기-->
-
-		<!-- 페이징 처리 #1 
-		<a href="list?page=1">1</a> -->
-		<!-- #16 -->
-		<c:if test="${searchVO.page>1}">
-			<li><a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
-			<li><a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-circle-chevron-left"></i></a></li>
-		</c:if>
-		<!-- 14 -->
-		<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+		
+		
+	<form action="" style="width:1000px;">
+		<div class="search-wrap">
+			<p>
+				전체글 : ${totRowcnt }<br />
+				현재페이지/토탈페이지 : ${searchVO.page } / ${searchVO.totPage }
+			</p>
+			<div>
 			<c:choose>
-				<c:when test="${i eq searchVO.page }">
-					<!-- 내가 클릭한 페이지의 숫자랑 같냐 -->
-					<li><span style="color: red; font-weight: bold">${i }</span></li>
+				<c:when test="${btitle }">
+				<input type="checkbox" name="searchType" value="btitle" checked/>
 				</c:when>
 				<c:otherwise>
-					<li><a href="list?page=${i }" style="text-decoration: none">${i }</a></li>
+				<input type="checkbox" name="searchType" value="btitle"/>
 				</c:otherwise>
 			</c:choose>
-		</c:forEach>
-		<!-- 15 화살표 넣기 (페이지 그룹 구분)-->
-		<c:if test="${searchVO.page < searchVO.totPage}">
-			<li><a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-circle-chevron-right"></i></a></li>
-			<li><a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
-		</c:if>
-	</ul>
+				&nbsp;&nbsp;제목&nbsp;
+			<c:choose>
+				<c:when test="${bcontent }">
+				<input type="checkbox" name="searchType" value="bcontent" checked/>
+				</c:when>
+				<c:otherwise>
+				<input type="checkbox" name="searchType" value="bcontent"/>
+				</c:otherwise>
+			</c:choose>
+				&nbsp;&nbsp;내용
+				<input type="text" name="sk" style="width:150px;" maxlength="50" value="${searchKey }"/>
+				<button type="submit" class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+			</div>
+		</div>
+		
+		<ul class="paging">
+			<!-- 13 현재페이지/토탈페이지:1/10 나타내기-->
+	
+			<!-- 페이징 처리 #1 
+			<a href="list?page=1">1</a> -->
+			<!-- #16 -->
+<%-- 			<c:if test="${searchVO.page>1}">
+				<li><a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
+				<li><a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-circle-chevron-left"></i></a></li>
+			</c:if> --%>
+			<c:choose>
+				<c:when test="${searchVO.page>1}">
+					<li><a href="list?page=1"><i class="fa-solid fa-angles-left"></i></a></li>
+					<li><a href="list?page=${searchVO.page-1 }"><i class="fa-solid fa-circle-chevron-left"></i></a></li>
+				</c:when>
+				<c:otherwise>
+					<li><i class="fa-solid fa-angles-left" style="color:#cecece"></i></li>
+					<li><i class="fa-solid fa-circle-chevron-left" style="color:#cecece"></i></li>
+				</c:otherwise>
+			</c:choose>
+			<!-- 14 -->
+			<c:forEach begin="${searchVO.pageStart }" end="${searchVO.pageEnd }" var="i">
+				<c:choose>
+					<c:when test="${i eq searchVO.page }">
+						<!-- 내가 클릭한 페이지의 숫자랑 같냐 -->
+						<li><span >${i }</span></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="list?page=${i }" style="text-decoration: none">${i }</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<!-- 15 화살표 넣기 (페이지 그룹 구분)-->
+<%-- 			<c:if test="${searchVO.page < searchVO.totPage}">
+				<li><a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-circle-chevron-right"></i></a></li>
+				<li><a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+			</c:if> --%>
+			
+			<c:choose>
+				<c:when test="${searchVO.page < searchVO.totPage}">
+					<li><a href="list?page=${searchVO.page+1 }"><i class="fa-solid fa-circle-chevron-right"></i></a></li>
+					<li><a href="list?page=${searchVO.totPage }"><i class="fa-solid fa-angles-right"></i></a></li>
+				</c:when>
+				<c:otherwise>
+					<li><i class="fa-solid fa-circle-chevron-right" style="color:#cecece"></i></li>
+					<li><i class="fa-solid fa-angles-right" style="color:#cecece"></i></li>
+				</c:otherwise>
+			</c:choose>
+		</ul>
+	</form>
 </body>

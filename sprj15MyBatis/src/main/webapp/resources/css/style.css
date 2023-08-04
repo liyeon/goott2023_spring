@@ -218,8 +218,51 @@ form.search{
 
 /* paging*/
 .paging{
-	width:var(--size);
+	margin:0 auto;
+	width:200px;
 	display:flex;
 	justify-content : space-between;
 	list-style:none;
+	margin-top: 20px;
+}
+.paging li{
+	font-size:14px!important;
+}
+.paging li:hover a{
+	color:#daf38b;
+}
+.paging li:hover a i{
+	color:#daf38b;
+}
+.paging a{
+	background:none;
+	color:#000;
+	font-size:14px;
+}
+.paging span{
+	color : #cecece;
+	font-size:14px;
+}
+.search-wrap{
+	width:100%;
+	margin-top: 10px;
+	display : flex;
+	justify-content: space-between;
+}
+.search-wrap p{
+	width:260px;
+	padding:20px;
+	background:#cecece;
+	line-height:2em;
+	border-radius: 5px;
+}
+.search-icon{
+	padding:10px;
+	background:#000;
+	border-radius: 5px;
+	outline:none;
+	border:none;
+}
+.search-icon i {
+	color:#fff;
 }

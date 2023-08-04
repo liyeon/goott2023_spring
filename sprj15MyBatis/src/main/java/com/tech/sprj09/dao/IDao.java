@@ -19,5 +19,11 @@ public interface IDao {
 			String bindent);
 	
 // 페이징 처리를 위한 메소드
-	public int selectBoardTotCount();
+//	public int selectBoardTotCount();
+//	검색처리를 위해 메소드에 파라미터 값 추가
+	public int selectBoardTotCount1(String searchKeyword);//타이틀 값만
+	public int selectBoardTotCount2(String searchKeyword);//콘텐츠 값만
+	public int selectBoardTotCount3(String searchKeyword);//둘 다 존재
+	public int selectBoardTotCount4(String searchKeyword);// 둘 다 없음
+	public ArrayList<BoardDto> list(int rowStart, int rowEnd, String searchKeyword, String setNum);
 }

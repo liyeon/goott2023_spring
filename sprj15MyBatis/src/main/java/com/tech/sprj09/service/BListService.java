@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import com.tech.sprj09.dao.IDao;
 import com.tech.sprj09.dto.BoardDto;
 import com.tech.sprj09.vopage.SearchVo;
+
 @Service
 public class BListService implements BServiceInterface {
 
@@ -27,36 +28,92 @@ public class BListService implements BServiceInterface {
 		if (strPage == null) {
 			strPage = "1";
 		}
-		System.out.println("page : "+strPage);
+		System.out.println("page : " + strPage);
 		int page = Integer.parseInt(strPage);
-		
+
 		// 검색 vo에 페이지값 담아주기
 		SearchVo searchVO = new SearchVo();
 		searchVO.setPage(page);
-		//글의 총 갯수 구하기
-		int total = dao.selectBoardTotCount();
-		System.out.println("total cnt: "+total);
+		// 글의 총 갯수 구하기
+//		int total = dao.selectBoardTotCount();
+
+		// 검색
+		// 저장할 변수 선언
+		String btitle = "";
+		String bcontent = "";
+		String[] brdtitle = request.getParameterValues("searchType");
+		System.out.println("brdtitle : " + brdtitle);
+		// 출력되는지 테스트
+		if (brdtitle != null) {// null 이 아닐때만 돌아주세용
+			for (int i = 0; i < brdtitle.length; i++) {
+				System.out.println("brdtitle : " + brdtitle[i]);
+			}
+		}
+
+		// 변수에 저장하기
+		if (brdtitle != null) {// null 이 아닐때만 돌아주세용
+			for (String var : brdtitle) {
+				if (var.equals("btitle")) {
+					btitle = "btitle";
+					model.addAttribute("btitle","true");
+				} else if (var.equals("bcontent")) {
+					bcontent = "bcontent";
+					model.addAttribute("bcontent","true");
+				}
+			}
+		}
+		// sk 값 Search Keyword 검색어 가져오기
+		String searchKeyword = request.getParameter("sk");
+		// 검색어 널값 처리
+		if (searchKeyword == null) {
+			searchKeyword = "";
+		}
+		System.out.println("검색어 : " + searchKeyword);
+		// 검색에 따른 총갯수 변형
+		int total = 0;
+//		4개의 경우의 수로 총갯수를 구하기
+		if (btitle.equals("btitle") && bcontent.equals("")) {
+			total = dao.selectBoardTotCount1(searchKeyword);
+		} else if (btitle.equals("") && bcontent.equals("bcontent")) {
+			total = dao.selectBoardTotCount2(searchKeyword);
+		} else if (btitle.equals("btitle") && bcontent.equals("bcontent")) {
+			total = dao.selectBoardTotCount3(searchKeyword);
+		} else if (btitle.equals("") && bcontent.equals("")) {
+			total = dao.selectBoardTotCount4(searchKeyword);
+		}
+		// 총 갯수
+		System.out.println("total cnt: " + total);
 		searchVO.pageCalculate(total);
-		/* 계산 결과 출력하기 */
-		System.out.println("total row: "+total);
-		System.out.println("clickpage: "+searchVO.getPage());
-		System.out.println("pageStart: "+searchVO.getPageStart());
-		System.out.println("pageEnd: "+searchVO.getPageEnd());
-		System.out.println("pageTot: "+searchVO.getTotPage());
-		System.out.println("rowStart: "+searchVO.getRowStart());
-		System.out.println("rowEnd: "+searchVO.getRowEnd());
-		
 		/* #9 페이징 글 번호 전달 */
 		int rowStart = searchVO.getRowStart();
 		int rowEnd = searchVO.getRowEnd();
-
+//		ArrayList<BoardDto> dto = dao.list(rowStart, rowEnd);
+		ArrayList<BoardDto> dto = null;
+		// 리스트에 임의 값 추가
+		if (btitle.equals("btitle") && bcontent.equals("")) {
+			dto = dao.list(rowStart, rowEnd, searchKeyword, "1");
+		} else if (btitle.equals("") && bcontent.equals("bcontent")) {
+			dto = dao.list(rowStart, rowEnd, searchKeyword, "2");
+		} else if (btitle.equals("btitle") && bcontent.equals("bcontent")) {
+			dto = dao.list(rowStart, rowEnd, searchKeyword, "3");
+		} else if (btitle.equals("") && bcontent.equals("")) {
+			dto = dao.list(rowStart, rowEnd, searchKeyword, "4");
+		}
+		/* 계산 결과 출력하기 */
+		System.out.println("total row: " + total);
+		System.out.println("clickpage: " + searchVO.getPage());
+		System.out.println("pageStart: " + searchVO.getPageStart());
+		System.out.println("pageEnd: " + searchVO.getPageEnd());
+		System.out.println("pageTot: " + searchVO.getTotPage());
+		System.out.println("rowStart: " + searchVO.getRowStart());
+		System.out.println("rowEnd: " + searchVO.getRowEnd());
 		// 디비에 접속해서 데이터 가져오기
 //		BoardDao dao = new BoardDao();//호출
-		ArrayList<BoardDto> dto = dao.list(rowStart, rowEnd);
 		// 모델에 전달하기
 		model.addAttribute("list", dto);
+		model.addAttribute("searchKey", searchKeyword);
 		/* #12 페이지 계산을 위해 list.jsp에 값 전달 */
-		model.addAttribute("totRowcnt",total);
-		model.addAttribute("searchVO",searchVO);
+		model.addAttribute("totRowcnt", total);
+		model.addAttribute("searchVO", searchVO);
 	}
 }
