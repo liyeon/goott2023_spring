@@ -62,6 +62,24 @@ public class BListService implements BServiceInterface {
 				}
 			}
 		}
+		
+		//페이징에 검색결과유지
+		String bt=request.getParameter("btitle");
+		String bc=request.getParameter("bcontent");
+				
+//		변수에 저장
+		if (bt!=null) {//null이 아닐때만 돌아라
+			if(bt.equals("btitle")) {
+				btitle=bt;
+				model.addAttribute("btitle","true");
+			}
+		}
+		if (bc!=null) {//null이 아닐때만 돌아라
+			if(bc.equals("bcontent")) {
+				bcontent=bc;
+				model.addAttribute("bcontent","true");
+			}
+		}
 		// sk 값 Search Keyword 검색어 가져오기
 		String searchKeyword = request.getParameter("sk");
 		// 검색어 널값 처리

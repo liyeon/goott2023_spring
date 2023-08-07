@@ -50,7 +50,7 @@
 	</table>
 		
 		
-	<form action="" style="width:1000px;">
+	<form action="list" method="post" style="width:1000px;">
 		<div class="search-wrap">
 			<p>
 				전체글 : ${totRowcnt }<br />
@@ -108,7 +108,9 @@
 						<li><span >${i }</span></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="list?page=${i }" style="text-decoration: none">${i }</a></li>
+						<li>
+							<a href="list?page=${i }&sk=${searchKey }&btitle=${btitle==true?'btitle':''}&bcontent=${bcontent==true?'bcontent':''}">${i }</a>
+						</li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
