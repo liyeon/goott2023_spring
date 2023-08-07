@@ -52,3 +52,18 @@ insert into pz_board values(pz_board_seq.nextval,'이름이름','제목제목','
 select * from pz_board;
 create sequence pz_board_seq;
 
+
+---- 230807 미션
+create table replyboard2(
+brd_id number(4) primary key,
+brd_name varchar2(20),
+brd_title varchar2(100),
+brd_content varchar2(300),
+brd_date Date default sysdate,
+brd_hit number(4) default 0,
+brd_group number(4),
+brd_step number(4),
+brd_indent number(4));
+select * from replyboard2;
+insert into replyboard2 values(replyboard2_seq.nextval,'liyeon','자바란무엇인가','내용내용0',sysdate,0,replyboard2_seq.currval,0,0);
+create sequence replyboard2_seq;
