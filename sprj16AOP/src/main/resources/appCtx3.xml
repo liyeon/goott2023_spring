@@ -10,11 +10,6 @@
 	<!-- 어노테이션으로 aop 설정하ㄱ  -->
 	<aop:aspectj-autoproxy/>
 
-	<bean id="myCat" class="com.tech.aop3.Cats">
-		<property name="name" value="고양이" />
-		<property name="age" value="1"/>
-		<property name="color" value="yellow"/>
-	</bean>
 	<bean id="student" class="com.tech.aop3.Student">
 		<property name="name" value="홍길동" />
 		<property name="age" value="20"/>
