@@ -9,7 +9,7 @@ public interface IDao {
 //	페이징 처리를 위한 매개변수 값 추가
 	public ArrayList<BoardDto> list(int rowStart, int rowEnd);
 	public BoardDto contentView(int bid);
-	public int write(String bname, String btitle, String bcontent);
+	public int write(String bname, String btitle, String bcontent,String fname);
 	public int modify(int bid,String bname, String btitle, String bcontent);
 	public void upHit(int bid);
 	public boolean delete(int bid);

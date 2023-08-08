@@ -52,9 +52,9 @@ public class BoardDao {
 				int bstep = rs.getInt("bstep");
 				int bindent = rs.getInt("bindent");
 				// 생성자를 통해 BoardDto에 담아주기
-				BoardDto dto = new BoardDto(bid, bname, btitle, bcontent, bdate, bhit, bgroup, bstep, bindent);
-				// 리스트에 담기
-				dtos.add(dto);
+//				BoardDto dto = new BoardDto(bid, bname, btitle, bcontent, bdate, bhit, bgroup, bstep, bindent);
+//				// 리스트에 담기
+//				dtos.add(dto);
 			}
 		} catch (SQLException e) {
 			System.out.println("리스트 오류>>");
@@ -134,7 +134,7 @@ public class BoardDao {
 				int bstep = rs.getInt("bstep");
 				int bindent = rs.getInt("bindent");
 				// 생성자를 통해 BoardDto에 담아주기
-				dto = new BoardDto(bid, bname, btitle, bcontent, bdate, bhit, bgroup, bstep, bindent);
+//				dto = new BoardDto(bid, bname, btitle, bcontent, bdate, bhit, bgroup, bstep, bindent);
 			}
 		} catch (SQLException e) {
 			System.out.println("리스트 오류>>");
@@ -267,7 +267,7 @@ public class BoardDao {
 				int bstep = rs.getInt("bstep");
 				int bindent = rs.getInt("bindent");
 				// 생성자를 통해 BoardDto에 담아주기
-				dto = new BoardDto(bid, bname, btitle, bcontent, bdate, bhit, bgroup, bstep, bindent);
+//				dto = new BoardDto(bid, bname, btitle, bcontent, bdate, bhit, bgroup, bstep, bindent);
 			}
 		} catch (SQLException e) {
 			System.out.println("리스트 오류>>");

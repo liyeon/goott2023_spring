@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1>글을 써보자</h1>
-	<form action="write" method="POST">
+	<form action="write" method="POST" enctype="multipart/form-data">
 		<label for="bname">이름</label>
 		<input type="text" name="bname" value="작성자"/>
 		<label for="btitle">제목</label>
@@ -21,6 +21,7 @@
 			<input type="submit" value="입력" />
 			<a href="list" class="cancel" style="line-height:49px;">목록</a>
 		</div>
-		
+		<label for="file">첨부파일</label>
+		<input type="file" name="file" id="" />
 	</form>
 </body>
