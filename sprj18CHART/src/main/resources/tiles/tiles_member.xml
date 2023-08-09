@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+<!-- 웹페이지 이름과 경로를 지정해준다.
+baselayout : 공통 레이아웃의 뷰 이름
+template : 전체 레이아웃을 정하는 JSP의 위치 지정
+ -->
+  <definition name="baselayout" template="/WEB-INF/views/common/layout.jsp">
+    <put-attribute name="title" value="" />
+    <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+    <put-attribute name="side" value="/WEB-INF/views/common/side.jsp" />
+    <put-attribute name="body" value="" />
+    <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+  </definition>
+  <!-- 메인 화면의 뷰 이름 지정 / extends: 기본적인 레이아웃은 baseLayout을 상속받음을 표시 -->
+  <definition name="main" extends="baselayout">
+    <put-attribute name="title" value="메인페이지" />
+    <put-attribute name="body" value="/WEB-INF/views/common/center.jsp" />
+  </definition>
+</tiles-definitions>

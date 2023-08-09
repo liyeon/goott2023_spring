@@ -24,9 +24,16 @@ public class HomeController {
 	public String graph2() {
 		return "chart/graph2";
 	}
-	@RequestMapping("/bootstrap")
-	public String bootstrap() {
-		
-		return "chart/bootstrap";
+	@RequestMapping("/graph3")
+	public String graph3() {
+		return "chart/graph3";
+	}
+	@RequestMapping("/emp")
+	public String emp() {
+		return "chart/emp";
+	}
+	@RequestMapping("/main1")
+	public String main1() {
+		return "common/layout";
 	}
 }
