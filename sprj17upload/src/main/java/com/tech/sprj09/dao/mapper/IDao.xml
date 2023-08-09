@@ -103,4 +103,16 @@
 	<select id="selectBoardTotCount4" resultType="Integer">
 		SELECT COUNT(*) FROM REPLYBOARD
 	</select>
+	
+	
+	
+	<!-- emp 차트 생성을 위한 JOBDTO -->
+	<select id="sumByJob" resultType="com.tech.sprj09.dto.JobDto">
+		SELECT JOB, SUM(SAL) SUM FROM EMP GROUP BY JOB ORDER BY JOB
+	</select>
+	
+	<!-- 학년별 키의 합계를 json 으로 전달하고 받기  -->
+	<select id="sumByStudent" resultType="com.tech.sprj09.dto.StudentDto">
+		SELECT GRADE, SUM(HEIGHT) SUM FROM STUDENT GROUP BY GRADE ORDER BY GRADE
+	</select>
 </mapper>

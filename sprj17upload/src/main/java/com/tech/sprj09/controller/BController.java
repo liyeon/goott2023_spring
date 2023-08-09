@@ -1,16 +1,17 @@
 package com.tech.sprj09.controller;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tech.sprj09.dao.IDao;
+import com.tech.sprj09.dto.JobDto;
+import com.tech.sprj09.dto.StudentDto;
 import com.tech.sprj09.service.BContentViewService;
 import com.tech.sprj09.service.BDeleteService;
 import com.tech.sprj09.service.BListService;
@@ -35,7 +38,45 @@ public class BController {
 //	servlet-context에 등록한 sqlsession Bean을 가져온다.
 	@Autowired
 	private SqlSession sqlSession;
-
+	
+	@RequestMapping("/studentsum")
+	public String studentsum(Model model) {
+		IDao dao = sqlSession.getMapper(IDao.class);
+		JSONArray arr = new JSONArray();
+		ArrayList<StudentDto> dto = dao.sumByStudent();
+		for(StudentDto student : dto) {
+			JSONObject obj = new JSONObject();
+			String grade = student.getGrade();
+			int sum = student.getSum();
+			obj.put("grade",grade);
+			obj.put("sum",sum);
+			if(obj!=null){
+				arr.add(obj);
+			}
+		}
+		model.addAttribute("arr",arr);
+		return "chart/studentgraph";
+	}
+	
+	@RequestMapping("/empsum")
+	public String empsum(Model model) {
+		IDao dao = sqlSession.getMapper(IDao.class);
+		JSONArray arr = new JSONArray();
+		ArrayList<JobDto> dto = dao.sumByJob();
+		for(JobDto job : dto) {
+			JSONObject obj = new JSONObject();
+			String job1 = job.getJob();
+			int sum = job.getSum();
+			obj.put("job",job1);
+			obj.put("sum",sum);
+			if(obj!=null){
+				arr.add(obj);
+			}
+		}
+		model.addAttribute("arr",arr);
+		return "chart/jobgraph";
+	}
+	
 	/* #2 페이징처리 request로 값 받기 #6 SearchVo 받기 */
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, Model model) {
@@ -190,11 +231,11 @@ public class BController {
 
 //	      stream연결
 		FileInputStream fin = new FileInputStream(realPath);
-		ServletOutputStream sout = response.getOutputStream();
+		ServletOutputStream sout = response.getOutputStream();//다운로드하는게 아웃풋
 
 		byte[] buf = new byte[1024];
 		int size = 0;
-		while ((size = fin.read(buf, 0, 1024)) != -1) {
+		while ((size = fin.read(buf, 0, 1024)) != -1) { // 가져올게 없는 순간이면 -1이되는데 -1이 되지 않을 때 까지 동작
 			sout.write(buf, 0, size);
 		}
 		fin.close();
