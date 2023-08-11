@@ -6,11 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.tech.sprj09.dao.BoardDao;
 import com.tech.sprj09.dao.IDao;
 
+@Service
 public class BReplyService implements BServiceInterface {
 	@Autowired
 	private SqlSession sqlSession;
@@ -18,6 +21,7 @@ public class BReplyService implements BServiceInterface {
 		this.sqlSession=sqlSession;
 	}
 
+	@Transactional
 	@Override
 	public void execute(Model model) {
 		System.out.println(">>BReplyService 신호를 받아보자");

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.tech.sprj09.dao.IDao;
@@ -24,6 +25,7 @@ public class BDownloadService implements BServiceInterface{
 		this.sqlSession=sqlSession;
 	}
 
+	@Transactional
 	@Override
 	public void execute(Model model) {
 		System.out.println(">>BDownloadService.java 신호를 받아보자");

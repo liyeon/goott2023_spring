@@ -3,45 +3,91 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<!-- 웹 페이지에서 바로 인식할수있도록 css 폴더 추가 -->
 	<resources mapping="/css/**" location="/css/" />
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="com.tech.sprj09" />
-	
+
+	<context:component-scan
+		base-package="com.tech.sprj09" />
+
 	<!-- 마이바티스 세팅 -->
-	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<beans:property name="username" value="hr"/>
-		<beans:property name="password" value="123456"/>
+	<beans:bean name="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<beans:property name="url"
+			value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<beans:property name="username" value="hr" />
+		<beans:property name="password" value="123456" />
 	</beans:bean>
-	<!-- SqlSessionFactory 객체 위의 datasource라는 아이디를 참조한다. datasource에 의존한다.-->
-	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<beans:property name="dataSource" ref="dataSource"/>
-		<beans:property name="mapperLocations" value="classpath:com/tech/sprj09/dao/mapper/*.xml"/>
+	<!-- SqlSessionFactory 객체 위의 datasource라는 아이디를 참조한다. datasource에 의존한다. -->
+	<beans:bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="mapperLocations"
+			value="classpath:com/tech/sprj09/dao/mapper/*.xml" />
 	</beans:bean>
-	<!-- sessionFacctory는 sqlSessionTemplate의 참조값을 얻어오기 위해서 설정헀음 sessionFacctory에 의존한다.-->
-	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> 
-		
-		<beans:constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/> <!-- //생성자의 인자로 전달을 해준다. -->
+	<!-- sessionFacctory는 sqlSessionTemplate의 참조값을 얻어오기 위해서 설정헀음 sessionFacctory에 
+		의존한다. -->
+	<beans:bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+
+		<beans:constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory" /> <!-- //생성자의 인자로 전달을 해준다. -->
 	</beans:bean>
-		<!-- 
-		new SqlSessionTemplate(sessionFactory);와 동일
-	 -->
+	<!-- new SqlSessionTemplate(sessionFactory);와 동일 -->
+
+	<!-- 트랜잭션 세팅하기 -->
+	<!-- tx setting -->
+	<tx:annotation-driven
+		transaction-manager="txManager" />
+	<beans:bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+	</beans:bean>
+
+	<!-- https://dymn.tistory.com/49 참조 두싸이트 참조 스프링 부트기준 내용에서 일부참조 아래내용 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="insert*" rollback-for="Exception" />
+			<tx:method name="update*" rollback-for="Exception" />
+			<tx:method name="delete*" rollback-for="Exception" />
+			<tx:method name="save*" rollback-for="Exception" />
+			<tx:method name="process*" propagation="REQUIRES_NEW"
+				rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="requiredTx"
+			expression="execution(* com.tech.sprj09.service.*.*(..))" /> <!-- 서비스패키지 안에 모든 모든 메소드, 모든타입의 매개변수 0개 이상 
+			매개변수가 없는 메소드의 호출도 pointCut으로 설정된다.  -->
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="requiredTx" />
+	</aop:config>
 </beans:beans>

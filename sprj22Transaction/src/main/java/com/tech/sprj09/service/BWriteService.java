@@ -7,19 +7,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tech.sprj09.dao.IDao;
 
+@Service
 public class BWriteService implements BServiceInterface{
 	@Autowired
 	private SqlSession sqlSession;
 	public BWriteService(SqlSession sqlSession) {
 		this.sqlSession=sqlSession;
 	}
-
+	@Transactional
 	@Override
 	public void execute(Model model) {
 		System.out.println(">>BWriteService 신호를 받아보자");

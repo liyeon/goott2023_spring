@@ -6,17 +6,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.tech.sprj09.dao.IDao;
 
+@Service
 public class BModifyService implements BServiceInterface{
 	@Autowired
 	private SqlSession sqlSession;
 	public BModifyService(SqlSession sqlSession) {
 		this.sqlSession=sqlSession;
 	}
-
+	
+	@Transactional
 	@Override
 	public void execute(Model model) {
 		System.out.println(">>BModifyService 신호를 받아보자");

@@ -180,6 +180,26 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
+
+		<!-- AOP 와 트랜잭션 처리하려면 넣어야되는 디펜던시 -->
+		<!-- https://mvnrepository.com/artifact/aspectj/aspectjrt -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>4.3.8.RELEASE</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

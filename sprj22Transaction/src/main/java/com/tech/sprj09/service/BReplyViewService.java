@@ -6,19 +6,23 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.tech.sprj09.dao.IDao;
 import com.tech.sprj09.dto.BoardDto;
 
+@Service
 public class BReplyViewService implements BServiceInterface {
 	@Autowired
 	private SqlSession sqlSession;
 	public BReplyViewService(SqlSession sqlSession) {
 		this.sqlSession=sqlSession;
 	}
-
-	@Override
+	
+	@Transactional
+	@Override	
 	public void execute(Model model) {
 		System.out.println(">>BReplyViewService 신호를 받아보자");
 		IDao dao = sqlSession.getMapper(IDao.class);
