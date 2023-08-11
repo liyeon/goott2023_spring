@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -12,11 +14,16 @@ import com.tech.sprj09.dto.BoardDto;
 
 @Service
 public class BContentViewService implements BServiceInterface{
+	@Autowired
+	private SqlSession sqlSession;
+	public BContentViewService(SqlSession sqlSession) {
+		this.sqlSession=sqlSession;
+	}
 
 	@Override
-	public void execute(Model model,IDao dao) {
+	public void execute(Model model) {
 		System.out.println(">>BContentViewService.java 신호를 받아보자");
-		
+		IDao dao = sqlSession.getMapper(IDao.class);
 		// 맵 변환
 		Map<String, Object> map = model.asMap();
 		// 맵에서 request 추출

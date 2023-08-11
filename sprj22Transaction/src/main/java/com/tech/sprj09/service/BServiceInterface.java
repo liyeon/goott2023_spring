@@ -6,5 +6,6 @@ import com.tech.sprj09.dao.IDao;
 
 public interface BServiceInterface {
 //	public void execute(Model model);
-	public void execute(Model model,IDao dao);
+	public void execute(Model model);
+	
 }

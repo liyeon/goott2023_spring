@@ -23,6 +23,7 @@ import com.tech.sprj09.dto.JobDto;
 import com.tech.sprj09.dto.StudentDto;
 import com.tech.sprj09.service.BContentViewService;
 import com.tech.sprj09.service.BDeleteService;
+import com.tech.sprj09.service.BDownloadService;
 import com.tech.sprj09.service.BListService;
 import com.tech.sprj09.service.BModifyService;
 import com.tech.sprj09.service.BReplyService;
@@ -38,54 +39,16 @@ public class BController {
 //	servlet-context에 등록한 sqlsession Bean을 가져온다.
 	@Autowired
 	private SqlSession sqlSession;
-	
-	@RequestMapping("/studentsum")
-	public String studentsum(Model model) {
-		IDao dao = sqlSession.getMapper(IDao.class);
-		JSONArray arr = new JSONArray();
-		ArrayList<StudentDto> dto = dao.sumByStudent();
-		for(StudentDto student : dto) {
-			JSONObject obj = new JSONObject();
-			String grade = student.getGrade();
-			int sum = student.getSum();
-			obj.put("grade",grade);
-			obj.put("sum",sum);
-			if(obj!=null){
-				arr.add(obj);
-			}
-		}
-		model.addAttribute("arr",arr);
-		return "chart/studentgraph";
-	}
-	
-	@RequestMapping("/empsum")
-	public String empsum(Model model) {
-		IDao dao = sqlSession.getMapper(IDao.class);
-		JSONArray arr = new JSONArray();
-		ArrayList<JobDto> dto = dao.sumByJob();
-		for(JobDto job : dto) {
-			JSONObject obj = new JSONObject();
-			String job1 = job.getJob();
-			int sum = job.getSum();
-			obj.put("job",job1);
-			obj.put("sum",sum);
-			if(obj!=null){
-				arr.add(obj);
-			}
-		}
-		model.addAttribute("arr",arr);
-		return "chart/jobgraph";
-	}
-	
+
 	/* #2 페이징처리 request로 값 받기 #6 SearchVo 받기 */
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, Model model) {
 		System.out.println("리스트");
 		// 데이터를 가져와보자
-		IDao dao = sqlSession.getMapper(IDao.class);
+//		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface = new BListService();
-		bServiceInterface.execute(model, dao);
+		bServiceInterface = new BListService(sqlSession);
+		bServiceInterface.execute(model);
 		return "/list";
 	}
 
@@ -106,9 +69,9 @@ public class BController {
 //		String btitle = request.getParameter("btitle");
 //		String bcontent = request.getParameter("bcontent");
 		model.addAttribute("request", request);
-		IDao dao = sqlSession.getMapper(IDao.class);
-		bServiceInterface = new BWriteService();
-		bServiceInterface.execute(model, dao);
+//		IDao dao = sqlSession.getMapper(IDao.class);
+		bServiceInterface = new BWriteService(sqlSession);
+		bServiceInterface.execute(model);
 //		dao.write(bname,btitle,bcontent);
 		return "redirect:list";
 	}
@@ -118,10 +81,10 @@ public class BController {
 		System.out.println("=====content_view_view====");
 
 //		글조회
-		IDao dao = sqlSession.getMapper(IDao.class);
+//		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface = new BContentViewService();
-		bServiceInterface.execute(model, dao);
+		bServiceInterface = new BContentViewService(sqlSession);
+		bServiceInterface.execute(model);
 		System.out.println("contentview 리퀘스트 값 " + request);
 //		int bid = Integer.parseInt(request.getParameter("bid"));
 //		dao.upHit(bid);
@@ -133,10 +96,10 @@ public class BController {
 	@RequestMapping("/content_update")
 	public String content_update(HttpServletRequest request, Model model) {
 		System.out.println("=====content_update====");
-		IDao dao = sqlSession.getMapper(IDao.class);
+//		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface = new BContentViewService();
-		bServiceInterface.execute(model, dao);
+		bServiceInterface = new BContentViewService(sqlSession);
+		bServiceInterface.execute(model);
 //		int bid = Integer.parseInt(request.getParameter("bid"));
 //		BoardDto dto = dao.content_view(bid);
 //		model.addAttribute("dto",dto);
@@ -147,11 +110,11 @@ public class BController {
 	// method가 post방식일때 처리
 	@RequestMapping(method = RequestMethod.POST, value = "/modify")
 	public String modify(HttpServletRequest request, Model model) {
-		System.out.println("=====modify====");
-		IDao dao = sqlSession.getMapper(IDao.class);
+//		System.out.println("=====modify====");
+//		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface = new BModifyService();
-		bServiceInterface.execute(model, dao);
+		bServiceInterface = new BModifyService(sqlSession);
+		bServiceInterface.execute(model);
 //		int bid = Integer.parseInt(request.getParameter("bid"));
 //		String bname = request.getParameter("bname");
 //		String btitle = request.getParameter("btitle");
@@ -164,11 +127,11 @@ public class BController {
 	// 글 삭제
 	@RequestMapping("/delete")
 	public String delete(HttpServletRequest request, Model model) {
-		System.out.println("=====delete====");
-		IDao dao = sqlSession.getMapper(IDao.class);
+//		System.out.println("=====delete====");
+//		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface = new BDeleteService();
-		bServiceInterface.execute(model, dao);
+		bServiceInterface = new BDeleteService(sqlSession);
+		bServiceInterface.execute(model);
 //		BoardDao dao = new BoardDao(); // 디비 접속 준비완료
 //		int bid = Integer.parseInt(request.getParameter("bid"));
 //		boolean flag = dao.delete(bid);
@@ -180,10 +143,10 @@ public class BController {
 	@RequestMapping("/reply_view")
 	public String reply_view(HttpServletRequest request, Model model) {
 		System.out.println("=====reply_view====");
-		IDao dao = sqlSession.getMapper(IDao.class);
+//		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface = new BReplyViewService();
-		bServiceInterface.execute(model, dao);
+		bServiceInterface = new BReplyViewService(sqlSession);
+		bServiceInterface.execute(model);
 //		230802 오후수업 추가
 //		String sbid = request.getParameter("bid");
 //		int bid = Integer.parseInt(sbid);
@@ -197,10 +160,10 @@ public class BController {
 	@RequestMapping(method = RequestMethod.POST, value = "/reply")
 	public String reply(HttpServletRequest request, Model model) {
 		System.out.println("=====reply====");
-		IDao dao = sqlSession.getMapper(IDao.class);
+//		IDao dao = sqlSession.getMapper(IDao.class);
 		model.addAttribute("request", request);
-		bServiceInterface = new BReplyService();
-		bServiceInterface.execute(model, dao);
+		bServiceInterface = new BReplyService(sqlSession);
+		bServiceInterface.execute(model);
 //		230802 오후수업 추가
 //		String bid = request.getParameter("bid");
 //		String bgroup = request.getParameter("bgroup");
@@ -218,30 +181,50 @@ public class BController {
 	// 다운로드 신호받기
 	@RequestMapping("/download")
 	public String download(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-		System.out.println("=download=");
-		String path = request.getParameter("p");
-		String fname = request.getParameter("f");
-		String bid = request.getParameter("bid");
+		model.addAttribute("request", request);
+		model.addAttribute("response", response);
+		bServiceInterface = new BDownloadService(sqlSession);
+		bServiceInterface.execute(model);
+//		return "content_view?bid="d;
+		return null;
 
-		// down처리
-		response.setHeader("Content-Disposition", "Attachment;filename=" + URLEncoder.encode(fname, "utf-8"));
-		String attachPaht = "resources\\upload\\";
-		String realPath = request.getSession().getServletContext().getRealPath(attachPaht) + "\\" + fname;
-		System.out.println("realpath: " + realPath);
+	}
 
-//	      stream연결
-		FileInputStream fin = new FileInputStream(realPath);
-		ServletOutputStream sout = response.getOutputStream();//다운로드하는게 아웃풋
-
-		byte[] buf = new byte[1024];
-		int size = 0;
-		while ((size = fin.read(buf, 0, 1024)) != -1) { // 가져올게 없는 순간이면 -1이되는데 -1이 되지 않을 때 까지 동작
-			sout.write(buf, 0, size);
+	@RequestMapping("/studentsum")
+	public String studentsum(Model model) {
+		IDao dao = sqlSession.getMapper(IDao.class);
+		JSONArray arr = new JSONArray();
+		ArrayList<StudentDto> dto = dao.sumByStudent();
+		for (StudentDto student : dto) {
+			JSONObject obj = new JSONObject();
+			String grade = student.getGrade();
+			int sum = student.getSum();
+			obj.put("grade", grade);
+			obj.put("sum", sum);
+			if (obj != null) {
+				arr.add(obj);
+			}
 		}
-		fin.close();
-		sout.close();
+		model.addAttribute("arr", arr);
+		return "chart/studentgraph";
+	}
 
-		return "content_view?bid=" + bid;
-
+	@RequestMapping("/empsum")
+	public String empsum(Model model) {
+		IDao dao = sqlSession.getMapper(IDao.class);
+		JSONArray arr = new JSONArray();
+		ArrayList<JobDto> dto = dao.sumByJob();
+		for (JobDto job : dto) {
+			JSONObject obj = new JSONObject();
+			String job1 = job.getJob();
+			int sum = job.getSum();
+			obj.put("job", job1);
+			obj.put("sum", sum);
+			if (obj != null) {
+				arr.add(obj);
+			}
+		}
+		model.addAttribute("arr", arr);
+		return "chart/jobgraph";
 	}
 }

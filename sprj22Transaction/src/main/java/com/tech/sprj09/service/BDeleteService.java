@@ -4,15 +4,24 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import com.tech.sprj09.dao.IDao;
 
 public class BDeleteService implements BServiceInterface{
+	@Autowired
+	private SqlSession sqlSession;
+	public BDeleteService(SqlSession sqlSession) {
+		this.sqlSession=sqlSession;
+	}
 
 	@Override
-	public void execute(Model model,IDao dao) {
+	public void execute(Model model) {
 		System.out.println(">>BDeleteService 신호를 받아보자");
+		// 데이터를 가져와보자
+				IDao dao = sqlSession.getMapper(IDao.class);
 //		모델에서 request를 풀어서
 //		맵으로 전환한다.
 		Map<String,Object> map= model.asMap();

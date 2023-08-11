@@ -4,17 +4,24 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import com.tech.sprj09.dao.BoardDao;
 import com.tech.sprj09.dao.IDao;
 
 public class BReplyService implements BServiceInterface {
+	@Autowired
+	private SqlSession sqlSession;
+	public BReplyService(SqlSession sqlSession) {
+		this.sqlSession=sqlSession;
+	}
 
 	@Override
-	public void execute(Model model,IDao dao) {
+	public void execute(Model model) {
 		System.out.println(">>BReplyService 신호를 받아보자");
-
+		IDao dao = sqlSession.getMapper(IDao.class);
 		// 맵 변환
 		Map<String, Object> map = model.asMap();
 		// 맵에서 request 추출

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -14,11 +16,17 @@ import com.tech.sprj09.vopage.SearchVo;
 
 @Service
 public class BListService implements BServiceInterface {
+	@Autowired
+	private SqlSession sqlSession;
+	public BListService(SqlSession sqlSession) {
+		this.sqlSession=sqlSession;
+	}
 
 	@Override
-	public void execute(Model model, IDao dao) {
+	public void execute(Model model) {
 		System.out.println(">>BListService 신호를 받아보자");
-
+		// 데이터를 가져와보자
+		IDao dao = sqlSession.getMapper(IDao.class);
 		// asMap = 인덱스 번호도 같이 가져올수있다.
 		Map<String, Object> map = model.asMap();
 		// 키값이 request 인 value 가져오기

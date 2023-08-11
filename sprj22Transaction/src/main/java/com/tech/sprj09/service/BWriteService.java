@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -12,10 +14,17 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tech.sprj09.dao.IDao;
 
 public class BWriteService implements BServiceInterface{
+	@Autowired
+	private SqlSession sqlSession;
+	public BWriteService(SqlSession sqlSession) {
+		this.sqlSession=sqlSession;
+	}
 
 	@Override
-	public void execute(Model model,IDao dao) {
+	public void execute(Model model) {
 		System.out.println(">>BWriteService 신호를 받아보자");
+		// 데이터를 가져와보자
+		IDao dao = sqlSession.getMapper(IDao.class);
 //		모델에서 request를 풀어서
 //		맵으로 전환한다.
 		Map<String,Object> map= model.asMap();
@@ -30,7 +39,7 @@ public class BWriteService implements BServiceInterface{
 		String path = uploadPath+attachPath;
 		System.out.println("합쳐진 경로 >>>"+path);
 		*/
-		String path = "C:\\javabigsetspring2023\\spring_work\\sprj17upload\\src\\main\\webapp\\resources\\upload";
+		String path = "C:\\javabigsetspring2023\\spring_work\\sprj22Transaction\\src\\main\\webapp\\resources\\upload";
 		////C:\javabigsetspring2023\spring_work\sprj17upload\src\main\webapp\resources\\\\upload//
 		// multipart에서 변형하기
 		// 20mb 를 의미함 1024*1024*20
