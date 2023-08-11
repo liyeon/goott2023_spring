@@ -124,13 +124,37 @@ body {
 		<div class="row">
 			<div class="col-md-4 mb-4">
 				<div class="card">
-					<img src="https://source.unsplash.com/1600x900/?pink-cat"
+					<img src="https://source.unsplash.com/1600x900/?kawai-cat"
 						class="card-img-top" alt="">
 					<div class="card-body">
-						<h5 class="card-title">메인4</h5>
+						<h5 class="card-title">board.list</h5>
 						<h6 class="card-subtitle mb-2 text-muted">Tiles</h6>
 						<p class="card-text">와일드카드..?</p>
-						<a href="main4" class="card-link stretched-link"></a>
+						<a href="board.list" class="card-link stretched-link"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="https://source.unsplash.com/1600x900/?happy-cat"
+						class="card-img-top" alt="">
+					<div class="card-body">
+						<h5 class="card-title">board.detail</h5>
+						<h6 class="card-subtitle mb-2 text-muted">Tiles</h6>
+						<p class="card-text">와일드카드..?</p>
+						<a href="board.detail" class="card-link stretched-link"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="https://source.unsplash.com/1600x900/?cute-dog"
+						class="card-img-top" alt="">
+					<div class="card-body">
+						<h5 class="card-title">notice</h5>
+						<h6 class="card-subtitle mb-2 text-muted">Tiles</h6>
+						<p class="card-text">와일드카드 미션</p>
+						<a href="notice.list" class="card-link stretched-link"></a>
 					</div>
 				</div>
 			</div>

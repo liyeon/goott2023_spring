@@ -31,11 +31,41 @@ public class HomeController {
 		model.addAttribute("addr","seoul");
 		return "main3";
 	}
-	@RequestMapping(value = "/main4", method = RequestMethod.GET)
-	public String main4(Model model) {
+	@RequestMapping(value = "/board.list", method = RequestMethod.GET)
+	public String list(Model model) {
 		
 		model.addAttribute("id","dongdongi");
 		model.addAttribute("addr","seoul");
-		return "main4/center4";
+		return "board/list";
+	}
+	
+	@RequestMapping(value = "/board.detail", method = RequestMethod.GET)
+	public String detail(Model model) {
+		
+		model.addAttribute("id","dongdongi");
+		model.addAttribute("addr","seoul");
+		return "board/detail";
+	}
+	
+	@RequestMapping(value = "/notice.detail", method = RequestMethod.GET)
+	public String noticedetail(Model model) {
+		
+		model.addAttribute("id","dongdongi");
+		model.addAttribute("addr","seoul");
+		return "notice/detail";
+	}
+	@RequestMapping(value = "/notice.edit", method = RequestMethod.GET)
+	public String noticeedit(Model model) {
+		
+		model.addAttribute("id","dongdongi");
+		model.addAttribute("addr","seoul");
+		return "notice/edit";
+	}
+	@RequestMapping(value = "/notice.list", method = RequestMethod.GET)
+	public String noticelist(Model model) {
+		
+		model.addAttribute("id","dongdongi");
+		model.addAttribute("addr","seoul");
+		return "notice/list";
 	}
 }
