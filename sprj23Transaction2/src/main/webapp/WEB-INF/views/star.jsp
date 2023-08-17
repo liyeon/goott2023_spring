@@ -14,27 +14,23 @@
 <title>Document</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
 <script>
 	function redeptlist(target) {
-		alert("target : " + target.value);
+		console.log("target : " + target.value);
 		var htmltxt = "";
 		//var pointvalue=document.getElementById("point").value;
 		$('input[name=point]').attr('value', target.value);
 	}
 </script>
-
-
-<script src="${pageContext.request.contextPath}/resources/js/scriptjsp.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/scriptjsp.js"></script>
 <script type="text/javascript">
 	function getvalue(target) {
 		alert(target.value);
 	}
 </script>
-
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
 
 </head>
 

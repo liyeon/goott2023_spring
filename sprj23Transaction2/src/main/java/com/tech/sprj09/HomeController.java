@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tech.sprj09.dao.ReviewDao;
+import com.tech.sprj09.dto.ReviewDto;
 
 import oracle.jdbc.driver.ClassRef.Locale;
 
@@ -44,5 +45,17 @@ public class HomeController {
 		dao.reviewwrite(review, point);
 
 		return "home";
+	}
+	
+	@RequestMapping(value = "/callgetdbstar", method = RequestMethod.GET)
+	public String callgetdbstar(HttpServletRequest request, Model model) {
+		// db 에서 글번호의 관련글 데이터 조회
+		String reno = request.getParameter("reno");
+		ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+		ReviewDto dto = dao.getReview(reno);
+		// 모델로 전달하기
+		model.addAttribute("dto",dto);
+//		System.out.println(dto.getRepoint());
+		return "callstar";
 	}
 }

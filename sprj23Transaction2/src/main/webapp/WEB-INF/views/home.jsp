@@ -40,6 +40,8 @@
 <h3>디비 접속 데이터 가져오기</h3>
 <a href="javascript:redeptlist()">redeptlist()</a>
 <a href="javascript:reemplist()">reemplist()</a>
+<a href="star">star</a>
+<a href="callgetdbstar?reno=1">callgetdbstar</a>
 <div id="display">
 	이곳이 데이터 추가되는곳입니다.
 </div>
