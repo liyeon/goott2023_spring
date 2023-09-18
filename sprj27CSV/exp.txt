@@ -1,0 +1,19 @@
+3번
+인코딩 부분처리, db를 사용하지 않은 방법으로 리턴 텍스트 한글처리
+웹에서 실행되어서 처리됨
+
+4번
+파이선에서 유사도분석 결과값 리턴받아  리스트에 뿌리기
+
+5번
+pom에 
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>  추가
+서적 제목을 전달하고 유사도 결과를 리턴받아 뷰에 출력
+
+뷰단에 모달창 띄우기 유사도분석의 이해
+
+여행으로 구현
